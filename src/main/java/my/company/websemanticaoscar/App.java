@@ -21,10 +21,11 @@ public class App
     {
     	//moviesMetadataToRDFModel();
     	if(args.length != 2) {
-    		printHelp();
+			printHelp();
+			printArgs(args);
     	}
     	else if(args[0].equals("oscars")) {
-    		parseOscars();
+    		parseOscars(args[1]);
     	}
     	else if(args[0].equals("movies")) {
     		moviesMetadataToRDFModel(args[1]);
@@ -37,10 +38,24 @@ public class App
     }
     
     public static void printHelp() {
-    	System.out.println("Usage: java dataToTurtle <oscars|movies>");
-    }
+    	System.out.println("Usage: java <oscars|movies> dataToTurtle");
+	}
+
+	public static void printArgs(String[] args){
+		System.out.println("Los argumentos detectados fueron:");
+		int i = 0;
+		if(args.length == 0){
+			System.out.println("No se detecto ningun argumento");
+			return;
+		}
+		for (String arg : args) {
+			System.out.println("args["+ i++ +"]: " + arg);
+		}
+	}
     
     public static void moviesMetadataToRDFModel(String path) {
+		System.out.println("El archivo a leer es: " + new File(path).getAbsolutePath());
+
     	CustomCSVReader csvReader = new CustomCSVReader(path);
     	MoviesMetadataRDFModel model = new MoviesMetadataRDFModel();
     	List<String[]> csvLines;
@@ -61,8 +76,8 @@ public class App
     			}
     		}
     		
-    		model.printModel();
     		model.saveModelToFile(new File("movies.ttl"));
+    		model.printModel();
     		
 		} catch(Exception e) {
 			e.printStackTrace();
@@ -73,10 +88,10 @@ public class App
 
    
     
-    public static void parseOscars () {
+    public static void parseOscars (String path) {
+		System.out.println("El archivo a leer es: " + new File(path).getAbsolutePath());
     	RDFSParser rdf = new RDFSParser();
-    	System.out.println(System.getProperty("user.dir"));
-    	try(BufferedReader reader = new BufferedReader(new FileReader("dataset/data_csv.csv"))){
+    	try(BufferedReader reader = new BufferedReader(new FileReader(path))){
     		String line;
     		reader.readLine();
     		while ((line = reader.readLine()) != null) {

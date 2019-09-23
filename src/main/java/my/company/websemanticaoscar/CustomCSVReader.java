@@ -24,8 +24,8 @@ public class CustomCSVReader {
 	
 	
 	public List<String[]> readCSV() throws Exception {
-	    Reader reader = Files.newBufferedReader(Paths.get(
-	      ClassLoader.getSystemResource(this.filePath).toURI()));
+	    Reader reader = Files.newBufferedReader(Paths.get(filePath));//Paths.get(
+	      //ClassLoader.getSystemResource(this.filePath).toURI()));
 	    return this.readAllLines(reader);
 	}
 	
