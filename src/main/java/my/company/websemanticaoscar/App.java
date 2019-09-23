@@ -31,7 +31,7 @@ public class App
     			//System.out.println(rdf.convertNameToResourceName(tokens[3]));
     		}
     		rdf.printModel();
-    		rdf.saveModelToFile(new File("output/oscar.ttl"));
+    		rdf.saveModelToFile(new File("output/oscar2.ttl"));
     	}
     	catch (IOException e) {
     		e.printStackTrace();
