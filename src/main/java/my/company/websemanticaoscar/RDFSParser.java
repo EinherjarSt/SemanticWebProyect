@@ -18,35 +18,42 @@ public class RDFSParser {
 	String voc = "http://oscars.org/voc#";
 	String movieURL = "http://oscars.org/";
 	private Property yearProperty;
+	private Property instanceProperty;
 	private Property categoryProperty;
 	private Property veredictProperty;
 	private Property nomineeProperty;
-	
+
 	public RDFSParser() {
 		this.model = ModelFactory.createDefaultModel();
 		model.setNsPrefix("voc", voc);
-		yearProperty = model.createProperty(voc,"year");
-		categoryProperty = model.createProperty(voc,"category");
-		veredictProperty = model.createProperty(voc,"veredict");
-		nomineeProperty = model.createProperty(voc,"nominee");
+		yearProperty = model.createProperty(voc, "year");
+		instanceProperty = model.createProperty(voc, "instance");
+		categoryProperty = model.createProperty(voc, "category");
+		veredictProperty = model.createProperty(voc, "veredict");
+		nomineeProperty = model.createProperty(voc, "nominee");
 	}
-	
+
 	public void parseTokens(String[] tokens) {
-		Resource subject = model.createResource(movieURL+convertNameToResourceName(tokens[3]));
-		Resource classRdfs = model.createResource(voc+"Nominee");
+		Resource subject = model.createResource(movieURL + convertNameToResourceName(tokens[3]));
+		Resource classRdfs = model.createResource(voc + "Nominee");
+		Resource blankInstance = model.createResource();
+		
 		subject.addProperty(RDF.type, classRdfs);
 		subject.addProperty(yearProperty, tokens[0]);
-		subject.addProperty(categoryProperty, tokens[1]);
-		subject.addProperty(veredictProperty, tokens[2]);
+		// subject.addProperty(categoryProperty, tokens[1]);
+		// subject.addProperty(veredictProperty, tokens[2]);		
 		subject.addProperty(nomineeProperty, tokens[3]);
 		
+		subject.addProperty(instanceProperty, blankInstance);
+		blankInstance.addProperty(categoryProperty, tokens[1]);
+		blankInstance.addProperty(veredictProperty, tokens[2].compareTo("True") == 0? "Winner": "Loser");
 	}
-	
+
 	public String convertNameToResourceName(String string) {
 		return string.replace(" ", "_").replace(",", "").replace(".", "");
-		
+
 	}
-	
+
 	public void saveModelToFile(File file) {
 		try {
 			this.model.write(new FileOutputStream(file), "Turtle");
@@ -55,7 +62,7 @@ public class RDFSParser {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void printModel() {
 		this.model.write(System.out, "Turtle");
 	}

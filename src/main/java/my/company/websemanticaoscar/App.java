@@ -4,6 +4,9 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
 
 import org.apache.jena.vocabulary.RDFS;
 import org.apache.jena.vocabulary.RDFSyntax;
@@ -16,8 +19,59 @@ public class App
 {
     public static void main( String[] args )
     {
-    	parseOscars();
+    	//moviesMetadataToRDFModel();
+    	if(args.length != 2) {
+    		printHelp();
+    	}
+    	else if(args[0].equals("oscars")) {
+    		parseOscars();
+    	}
+    	else if(args[0].equals("movies")) {
+    		moviesMetadataToRDFModel(args[1]);
+    	}
+    	else {
+    		printHelp();
+    	}
+    	
+    	
     }
+    
+    public static void printHelp() {
+    	System.out.println("Usage: java dataToTurtle <oscars|movies>");
+    }
+    
+    public static void moviesMetadataToRDFModel(String path) {
+    	CustomCSVReader csvReader = new CustomCSVReader(path);
+    	MoviesMetadataRDFModel model = new MoviesMetadataRDFModel();
+    	List<String[]> csvLines;
+    	
+    	try {
+    		csvLines = csvReader.readCSV();
+    		String[] csvHeader = csvLines.get(0);
+    		MoviesMetadataParser parser = new MoviesMetadataParser(csvHeader);
+    		
+    		String [] line;
+    		//Data
+    		for(int i = 1 ; i < csvLines.size(); i++) {
+    			
+    			line = csvLines.get(i);
+    			
+    			if(line.length == 26) {
+    				model.addCSVLineAsModelStatements(csvLines.get(i), parser);
+    			}
+    		}
+    		
+    		model.printModel();
+    		model.saveModelToFile(new File("movies.ttl"));
+    		
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+    	
+    	
+    }
+
+   
     
     public static void parseOscars () {
     	RDFSParser rdf = new RDFSParser();
@@ -31,7 +85,8 @@ public class App
     			//System.out.println(rdf.convertNameToResourceName(tokens[3]));
     		}
     		rdf.printModel();
-    		rdf.saveModelToFile(new File("output/oscar.ttl"));
+    		rdf.saveModelToFile(new File("oscar.ttl"));
+
     	}
     	catch (IOException e) {
     		e.printStackTrace();
