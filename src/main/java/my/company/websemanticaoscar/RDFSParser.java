@@ -46,7 +46,7 @@ public class RDFSParser {
 		
 		subject.addProperty(instanceProperty, blankInstance);
 		blankInstance.addProperty(categoryProperty, tokens[1]);
-		blankInstance.addProperty(veredictProperty, tokens[2]);
+		blankInstance.addProperty(veredictProperty, tokens[2].compareTo("True") == 0? "Winner": "Loser");
 	}
 
 	public String convertNameToResourceName(String string) {
