@@ -99,8 +99,8 @@ public class App
     			rdf.parseTokens(tokens);
     			//System.out.println(rdf.convertNameToResourceName(tokens[3]));
     		}
-    		rdf.printModel();
     		rdf.saveModelToFile(new File("oscar.ttl"));
+    		rdf.printModel();
 
     	}
     	catch (IOException e) {
