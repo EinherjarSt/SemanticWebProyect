@@ -118,8 +118,7 @@ public class MoviesMetadataRDFModel {
 	}
 	
 	public String convertNameToResourceName(String string) {
-		return string.replace(" ", "_").replace(",", "").replace(".", "");
-		
+		return string.replace(" ", "_").replace(",", "").replace(".", "").replace("\"", "").replace("\'", "");		
 	}
 	
 	public void saveModelToFile(File file) {

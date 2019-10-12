@@ -90,7 +90,7 @@ public class App
     
     public static void parseOscars (String path) {
 		System.out.println("El archivo a leer es: " + new File(path).getAbsolutePath());
-    	RDFSParser rdf = new RDFSParser();
+    	OscarsParser rdf = new OscarsParser();
     	try(BufferedReader reader = new BufferedReader(new FileReader(path))){
     		String line;
     		reader.readLine();
