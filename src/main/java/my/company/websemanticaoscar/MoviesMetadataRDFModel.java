@@ -3,17 +3,13 @@ package my.company.websemanticaoscar;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.util.HashMap;
 import org.json.*;
 
-import org.apache.jena.ontology.ObjectProperty;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.Property;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.vocabulary.RDF;
-import org.apache.jena.vocabulary.RDFS;
-import org.apache.jena.vocabulary.RDFSyntax;
 
 public class MoviesMetadataRDFModel {
 

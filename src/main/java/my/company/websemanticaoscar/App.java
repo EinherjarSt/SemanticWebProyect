@@ -4,12 +4,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-
-import org.apache.jena.vocabulary.RDFS;
-import org.apache.jena.vocabulary.RDFSyntax;
 
 /**
  * Hello world!
